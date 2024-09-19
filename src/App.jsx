@@ -19,23 +19,32 @@ export const goods = [
 export const App = () => {
   const [selectedGood, setSelectedGood] = useState('Jam');
 
+  function handleSelectGood(item) {
+    if (selectedGood === item) {
+      setSelectedGood('');
+    } else {
+      setSelectedGood(item);
+    }
+  }
+
+  function handleClear() {
+    setSelectedGood('');
+  }
+
   return (
     <main className="section container">
-      {selectedGood === '' ? (
-        <h1 className="title is-flex is-align-items-center">
-          No goods selected
-        </h1>
-      ) : (
-        <h1 className="title is-flex is-align-items-center">
-          {selectedGood} is selected
+      <h1 className="title is-flex is-align-items-center">
+        {selectedGood ? `${selectedGood} is selected` : 'No goods selected'}
+
+        {selectedGood && (
           <button
             data-cy="ClearButton"
             type="button"
             className="delete ml-3"
-            onClick={() => setSelectedGood('')}
+            onClick={handleClear}
           />
-        </h1>
-      )}
+        )}
+      </h1>
 
       <table className="table">
         <tbody>
@@ -57,11 +66,7 @@ export const App = () => {
                     className={classNames('button', {
                       'is-info': selectedGood === item,
                     })}
-                    onClick={() =>
-                      selectedGood === item
-                        ? setSelectedGood('')
-                        : setSelectedGood(item)
-                    }
+                    onClick={() => handleSelectGood(item)}
                   >
                     {selectedGood === item ? '-' : '+'}
                   </button>
